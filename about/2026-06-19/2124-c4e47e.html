@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mdsite — Project Overview</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='72' text-anchor='middle' font-size='80'>📄</text></svg>">
+  <!-- 自包含：依赖全走公网 jsdelivr CDN，产物就一个 .html -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" defer></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    html { scroll-behavior: smooth; }
+    .prose-mdsite h1 { font-size: 1.875rem; font-weight: 700; margin: 1.5rem 0 1rem; line-height: 1.3; }
+    .prose-mdsite h2 { font-size: 1.5rem; font-weight: 600; margin: 1.4rem 0 .8rem; }
+    .prose-mdsite h3 { font-size: 1.25rem; font-weight: 600; margin: 1.2rem 0 .6rem; }
+    .prose-mdsite p { margin: .75rem 0; line-height: 1.8; color: #1f2937; }
+    .prose-mdsite ul, .prose-mdsite ol { margin: .75rem 0; padding-left: 1.5rem; }
+    .prose-mdsite li { margin: .3rem 0; line-height: 1.7; }
+    .prose-mdsite ul { list-style: disc; }
+    .prose-mdsite ol { list-style: decimal; }
+    .prose-mdsite a { color: #2563eb; text-decoration: underline; }
+    .prose-mdsite code { background: #f3f4f6; padding: .1rem .35rem; border-radius: .25rem; font-size: .9em; }
+    .prose-mdsite pre { background: #0f172a; color: #e2e8f0; padding: 1rem 1.25rem; border-radius: .5rem; overflow-x: auto; margin: 1rem 0; }
+    .prose-mdsite pre code { background: transparent; color: inherit; padding: 0; }
+    .prose-mdsite blockquote { border-left: 3px solid #cbd5e1; padding-left: 1rem; color: #475569; margin: 1rem 0; }
+    .prose-mdsite table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+    .prose-mdsite th, .prose-mdsite td { border: 1px solid #e5e7eb; padding: .5rem .75rem; text-align: left; }
+    .prose-mdsite th { background: #f9fafb; font-weight: 600; }
+    .prose-mdsite img { max-width: 100%; border-radius: .5rem; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
+    <div class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
+      <a href="../../index.html" class="text-sm text-gray-400 hover:text-blue-600">&larr; 返回首页</a>
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-gray-400">2026-06-19</span>
+        <button onclick="navigator.clipboard && navigator.clipboard.writeText(location.href)"
+                title="复制链接"
+                class="text-xs text-gray-400 hover:text-blue-600 border border-gray-200 rounded px-2 py-1">分享</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-10">
+    <header class="mb-8 pb-6 border-b border-gray-100">
+      <p class="text-xs uppercase tracking-wide text-blue-600 font-medium mb-2">about</p>
+      <h1 class="text-3xl font-bold text-gray-900 leading-tight">mdsite — Project Overview</h1>
+      <p class="mt-3 text-sm text-gray-500">2026-06-19</p>
+    </header>
+    <article class="prose-mdsite">
+      <h1>mdsite — turn Markdown into your own shareable web report</h1>
+<blockquote>
+<p>One command turns a piece of Markdown / chat content into a <strong>polished, shareable HTML page</strong>, deployed to <strong>your own GitHub Pages</strong>.</p>
+</blockquote>
+<h2>Why</h2>
+<p>A very common need: turn the conclusions, designs, or weekly updates from a conversation into a <strong>good-looking page you can just send a link to</strong>. Existing internal tools are tied to private infrastructure, can&#39;t be used externally, and carry IP baggage.</p>
+<p>mdsite is a clean-room rewrite of that capability, with the infra swapped for <strong>each person&#39;s own GitHub</strong>:</p>
+<ul>
+<li><strong>No server, no CI to set up</strong> — pushing to GitHub Pages deploys automatically.</li>
+<li><strong>The maintainer hosts nothing</strong> — what you publish lives only under your own GitHub account, so this is a <em>tool</em>, not a <em>platform</em>.</li>
+</ul>
+<h2>Try it</h2>
+<pre><code class="language-bash"># 1) Initialize (create/reuse a pages repo on YOUR GitHub + enable Pages)
+mdsite init
+
+# 2) Turn a Markdown file into an online report
+mdsite publish notes.md --title &quot;My Weekly&quot; --category report --summary &quot;This week&quot;
+# → prints the real URL: https://&lt;you&gt;.github.io/&lt;repo&gt;/report/&lt;date&gt;/&lt;slug&gt;.html
+</code></pre>
+<p>The site root <code>https://&lt;you&gt;.github.io/&lt;repo&gt;/</code> is the timeline of all your reports; items older than 30 days auto-collapse.</p>
+<h2>Install</h2>
+<pre><code class="language-bash">npm i -g mdsite      # or npx mdsite &lt;command&gt;
+mdsite --help
+</code></pre>
+<p>Auth is a one-time thing — <strong>no SSH key, no GitHub Action needed</strong>. Least-privilege recommended:</p>
+<ol>
+<li><code>gh auth login</code> (preferred; token never written to any file)</li>
+<li>fine-grained PAT scoped to that one pages repo (Contents + Pages + Administration: write)</li>
+<li>classic <code>repo</code> PAT (fallback; note it grants read/write to all your repos)</li>
+</ol>
+<h2>Features</h2>
+<ul>
+<li><strong>md / html dual input</strong>: Markdown is converted to HTML, or pass through your already-built rich HTML.</li>
+<li><strong>Single self-contained file</strong>: the output is one <code>.html</code>, with Tailwind + Alpine via public CDN — naturally easy to share.</li>
+<li><strong>Timeline home</strong>: reports newest-first; items older than 30 days collapse — computed <strong>at view time</strong> by current date, never frozen at publish.</li>
+<li><strong>Safe multi-device merge</strong>: concurrent publishes from multiple machines semantically merge <code>pages.json</code> with no lost entries.</li>
+<li><strong>Credentials never persisted</strong>: the GitHub token is injected only via subprocess env, never written to <code>.git/config</code> or logs.</li>
+<li><strong>Overwrite protection</strong>: won&#39;t clobber an existing Pages site, and won&#39;t touch an existing repo&#39;s <code>main</code> branch.</li>
+<li><strong>Layered templates</strong>: built-in templates can be overridden from <code>~/.mdsite/templates/</code>.</li>
+</ul>
+<h2>Contributors</h2>
+<p>mdsite was built on the Raft collaboration platform by humans + multiple AI agents:</p>
+<ul>
+<li><strong>@chi-zhang</strong> — product direction &amp; key decisions (BYO-host, decentralization, naming)</li>
+<li><strong>@Researcher</strong> — research &amp; OpenSpec specs (decentralization red line, timeline-collapse semantics)</li>
+<li><strong>@MdLinkBuilder</strong> — implementation (CLI / skill / templates / tests)</li>
+<li><strong>@Reviewer</strong> (running on Codex) — multiple review rounds, tightening security &amp; edge cases</li>
+</ul>
+<h2>Privacy</h2>
+<p><strong>Your content is yours.</strong></p>
+<ul>
+<li>Every page is deployed only to <strong>the GitHub repo you configure</strong>, served by <strong>your own GitHub Pages</strong>, using <strong>your own credentials</strong>.</li>
+<li>The tool <strong>makes no requests to any maintainer-operated backend</strong>; the maintainer hosts, caches, and aggregates nothing.</li>
+<li>The home index lists only <strong>your own</strong> site&#39;s reports — there is <strong>no</strong> cross-user aggregation entry or central service of any kind.</li>
+<li>That makes mdsite a <em>tool author</em> (like Hugo / Jekyll), not a <em>platform operator</em>.</li>
+</ul>
+
+    </article>
+  </main>
+
+  <footer class="max-w-3xl mx-auto px-6 py-8 text-center text-xs text-gray-400">
+    由 <span class="font-medium">Pages</span> 生成 · <a href="../../index.html" class="hover:text-blue-600">查看全部报告</a>
+  </footer>
+</body>
+</html>
