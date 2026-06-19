@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "filename": "report/2026-06-19/1554-0a2ad8.html",
+    "title": "mdlink Live 验证报告",
+    "category": "report",
+    "date": "2026-06-19",
+    "summary": "完整 live 端到端验证：md→html→gh-pages→Pages 链接"
+  }
+]
