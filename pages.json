@@ -1,5 +1,12 @@
 [
   {
+    "filename": "showcase/2026-06-19/2313-701fff.html",
+    "title": "mdsite 新版报告模板 Demo",
+    "category": "showcase",
+    "date": "2026-06-19",
+    "summary": "新版 report 模板:右侧自动大纲 + 摘要 callout + 表格/引用/代码精致排版,对齐 aper-pages 观感"
+  },
+  {
     "filename": "about/2026-06-19/2124-c4e47e.html",
     "title": "mdsite — Project Overview",
     "category": "about",
