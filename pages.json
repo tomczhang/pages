@@ -1,5 +1,12 @@
 [
   {
+    "filename": "dashboard/2026-06-20/0123-07a5c4.html",
+    "title": "dashboard 模板示例：数据看板",
+    "category": "dashboard",
+    "date": "2026-06-20",
+    "summary": "KPI 数字卡 + echarts 折线/饼图,声明式 data-echarts 自动渲染。"
+  },
+  {
     "filename": "doc/2026-06-20/0123-f6c129.html",
     "title": "doc 模板示例：文档/手册版式",
     "category": "doc",
