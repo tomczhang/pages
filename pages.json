@@ -1,5 +1,12 @@
 [
   {
+    "filename": "showcase/2026-06-19/2355-241f5c.html",
+    "title": "mdsite 报告模板 v2:语义色块 + 速览 + 徽章表格",
+    "category": "showcase",
+    "date": "2026-06-19",
+    "summary": "对齐 aper-pages:5 色语义 callout、摘要+速览开头、表格徽章/标签/字段定义表。本页即用全部新特性渲染。"
+  },
+  {
     "filename": "showcase/2026-06-19/2313-701fff.html",
     "title": "mdsite 新版报告模板 Demo",
     "category": "showcase",
