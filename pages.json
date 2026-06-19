@@ -1,5 +1,12 @@
 [
   {
+    "filename": "showcase/2026-06-20/0006-06020e.html",
+    "title": "mdsite 报告模板 v3:收口(移动目录/kbd/精简工具)",
+    "category": "showcase",
+    "date": "2026-06-20",
+    "summary": "收口版:移动端折叠目录 + kbd 样式 + 首页统一品牌 + 右上角只保留复制链接;语义色块/速览/徽章表格全在。"
+  },
+  {
     "filename": "showcase/2026-06-19/2355-241f5c.html",
     "title": "mdsite 报告模板 v2:语义色块 + 速览 + 徽章表格",
     "category": "showcase",
