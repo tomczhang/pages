@@ -1,5 +1,12 @@
 [
   {
+    "filename": "doc/2026-06-20/0123-f6c129.html",
+    "title": "doc 模板示例：文档/手册版式",
+    "category": "doc",
+    "date": "2026-06-20",
+    "summary": "全宽文档版式:左侧导航从标题自动生成 + 滚动高亮 + 宽内容,适合长文档/手册。"
+  },
+  {
     "filename": "guide/2026-06-20/0105-272798.html",
     "title": "mdsite 使用教程（前端路由 SPA · 三栏 docs 版式）",
     "category": "guide",
