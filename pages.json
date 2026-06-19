@@ -1,5 +1,12 @@
 [
   {
+    "filename": "about/2026-06-19/2124-caffae.html",
+    "title": "mdsite 项目介绍",
+    "category": "about",
+    "date": "2026-06-19",
+    "summary": "把 Markdown 一键变成你自己 GitHub 上的在线报告站(中文版)"
+  },
+  {
     "filename": "report/2026-06-19/1810-542390.html",
     "title": "mdsite 改名 Live 验证",
     "category": "report",
