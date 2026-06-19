@@ -1,5 +1,12 @@
 [
   {
+    "filename": "guide/2026-06-20/0040-629a90.html",
+    "title": "mdsite 使用教程（前端路由 SPA）",
+    "category": "guide",
+    "date": "2026-06-20",
+    "summary": "单文件自包含 SPA:sidebar 树导航 + hash 前端路由 + 代码高亮,整页直通发布(不套报告模板)。"
+  },
+  {
     "filename": "guide/2026-06-20/0030-638ec2.html",
     "title": "mdsite 使用教程（前端路由 SPA）",
     "category": "guide",

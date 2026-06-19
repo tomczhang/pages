@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mdsite 使用教程</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='72' text-anchor='middle' font-size='80'>📘</text></svg>">
+  <!-- 单文件自包含 SPA：依赖全走公网 jsdelivr CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked-highlight/lib/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    html { scroll-behavior: smooth; }
+    [x-cloak]{display:none}
+    ::-webkit-scrollbar{width:7px;height:7px}
+    ::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:4px}
+    .nav-link{display:block;padding:6px 12px;border-radius:7px;font-size:14px;color:#4e5969;cursor:pointer;transition:.15s}
+    .nav-link:hover{background:#f2f3f5;color:#1f2329}
+    .nav-link.active{background:#e8f1ff;color:#1677ff;font-weight:600}
+    .nav-group{font-size:12px;font-weight:600;color:#a9aeb8;text-transform:uppercase;letter-spacing:.05em;margin:18px 0 6px 12px}
+    /* 正文排版 */
+    .doc h1{font-size:1.85rem;font-weight:700;color:#1f2329;margin:.2rem 0 1rem;line-height:1.3}
+    .doc h2{font-size:1.4rem;font-weight:600;margin:2rem 0 .9rem;padding-bottom:.4rem;border-bottom:1px solid #f0f0f0;scroll-margin-top:5rem}
+    .doc h3{font-size:1.15rem;font-weight:600;margin:1.5rem 0 .6rem}
+    .doc p{margin:.85rem 0;line-height:1.85;color:#1f2329}
+    .doc ul,.doc ol{margin:.85rem 0;padding-left:1.6rem}
+    .doc li{margin:.35rem 0;line-height:1.75}
+    .doc ul{list-style:disc}.doc ol{list-style:decimal}
+    .doc a{color:#1677ff;border-bottom:1px solid rgba(22,119,255,.3)}
+    .doc strong{font-weight:600}
+    .doc code{background:#f2f3f5;color:#d4380d;padding:.12rem .4rem;border-radius:4px;font-size:.88em;font-family:ui-monospace,Menlo,monospace}
+    .doc pre{background:#0d1117;border-radius:10px;padding:1.1rem 1.3rem;overflow-x:auto;margin:1.2rem 0}
+    .doc pre code{background:transparent;color:#e6edf3;padding:0;font-size:.9rem;line-height:1.65}
+    .doc blockquote{border-left:3px solid #1677ff;background:#f7f9ff;padding:.6rem 1rem;color:#4e5969;margin:1.1rem 0;border-radius:0 6px 6px 0}
+    .doc table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.92rem}
+    .doc th,.doc td{border:1px solid #e5e6eb;padding:.55rem .85rem;text-align:left}
+    .doc th{background:#f7f8fa;font-weight:600}
+    .doc tr:nth-child(even) td{background:#fafbfc}
+    .doc hr{border:none;border-top:1px solid #f0f0f0;margin:2rem 0}
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+<div x-data="app()">
+  <!-- 顶栏（移动端含菜单按钮） -->
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-100 px-4 h-14 flex items-center gap-3">
+    <button class="md:hidden p-2 -ml-2 text-gray-500" @click="open=!open" aria-label="菜单">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <span class="text-lg">📘</span>
+    <span class="font-semibold text-gray-900">mdsite 使用教程</span>
+    <span class="ml-auto text-xs text-gray-400 hidden sm:inline">单文件 · 前端路由 SPA</span>
+  </header>
+
+  <div class="flex max-w-7xl mx-auto">
+    <!-- 侧边栏 -->
+    <aside class="fixed md:sticky top-14 z-20 h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto bg-white border-r border-gray-100 px-3 py-4 transition-transform md:translate-x-0"
+           :class="open ? 'translate-x-0' : '-translate-x-full'">
+      <nav id="nav"></nav>
+    </aside>
+    <!-- 遮罩(移动端) -->
+    <div class="fixed inset-0 top-14 bg-black/30 z-10 md:hidden" x-show="open" x-cloak @click="open=false"></div>
+
+    <!-- 内容 -->
+    <main class="flex-1 min-w-0 px-6 md:px-10 py-8">
+      <article id="content" class="doc max-w-3xl mx-auto"></article>
+      <div class="max-w-3xl mx-auto mt-12 pt-6 border-t border-gray-100 flex justify-between text-sm">
+        <button id="prev" class="text-blue-600 hover:underline"></button>
+        <button id="next" class="text-blue-600 hover:underline ml-auto"></button>
+      </div>
+      <footer class="max-w-3xl mx-auto mt-10 text-xs text-gray-400">由 mdsite 生成 · 单文件自包含 · 前端 hash 路由</footer>
+    </main>
+  </div>
+</div>
+
+<!-- ===== 章节内容（每章一个 markdown 块） ===== -->
+<script type="text/markdown" id="md-intro">
+# mdsite 是什么
+
+mdsite 把一段 **Markdown / 对话内容**一键变成**云端可分享的精美 HTML 页面**，部署到**你自己的 GitHub Pages**。
+
+> 这个页面本身就是 mdsite 能力的展示：一个**单文件自包含、带前端路由的 SPA**，由 `mdsite publish guide.html` 直接发布。
+
+## 核心理念
+
+- **工具，不是平台**：内容只部署到你自己的 GitHub，维护者不托管、不聚合任何内容。
+- **零基建**：不用搭服务器、不用配 CI——push 到 GitHub Pages 即自动上线。
+- **产物自包含**：一个 `.html`，依赖走公网 CDN，天生好分享、好归档。
+
+## 两种产物
+
+| 类型 | 怎么来 | 适合 |
+|---|---|---|
+| 单页报告 | `mdsite publish x.md` | 周报、分析、复盘 |
+| 复杂 SPA | `mdsite publish x.html`（直通） | 教程、手册、多视图文档（就像本页） |
+</script>
+
+<script type="text/markdown" id="md-install">
+# 安装
+
+npm 包名 `@tomczhang/mdsite`，命令是 `mdsite`。
+
+```bash
+npm i -g @tomczhang/mdsite
+mdsite --help
+```
+
+## 认证（一次即可）
+
+**不需要 SSH key，也不需要配 GitHub Action。** 推荐最小权限，从高到低：
+
+1. `gh auth login`（首选，token 不落任何文件）
+2. fine-grained PAT，只授权那一个 pages 仓库（Contents + Pages + Administration: write）
+3. classic `repo` PAT（兜底，注意它授予全部仓库读写）
+
+> [!NOTE]
+> token 绝不会写进 `.git/config` 或日志——只在推送时经子进程环境临时注入。
+</script>
+
+<script type="text/markdown" id="md-init">
+# 初始化
+
+```bash
+mdsite init                      # 默认在 <你>/pages 建/复用仓库
+mdsite init --repo <你>/my-pages # 指定仓库
+```
+
+`init` 会：
+
+1. 在**你自己的** GitHub 建或复用目标仓库；
+2. 开启该仓库的 GitHub Pages（来源 = `gh-pages` 分支根）；
+3. 在本地准备工作区 `~/.mdsite`（即 gh-pages 分支工作树）；
+4. 铺好站点首页。
+
+> [!TIP]
+> 仅对**本次新建**的仓库才会把默认分支切到 `gh-pages` 并删掉空 `main`；复用已有仓库时绝不动你的分支。
+</script>
+
+<script type="text/markdown" id="md-publish">
+# 发布报告
+
+```bash
+mdsite publish notes.md --title "周报" --category report --summary "本周进展"
+```
+
+输出一个真实链接：`https://<你>.github.io/<repo>/report/<日期>/<slug>.html`。
+
+- 输入 `.md` → 自动转 HTML 正文；输入 `.html` → 直通（适合本页这种富交互页面）。
+- `--category` 任意 kebab-case（report / spec / review / dashboard / changelog…）。
+- 站点根是你所有报告的**时间轴首页**，超 30 天自动折叠。
+
+> [!IMPORTANT]
+> 发布前会校验本地 git origin 与配置仓库一致、且不会覆盖非 mdsite 管理的已有站点（需 `--force`）。
+</script>
+
+<script type="text/markdown" id="md-authoring">
+# 写出好看的报告
+
+报告**总是以「摘要 + 速览」开头**，正文按语义分块。
+
+## 摘要
+
+用 `--summary` 传一句话核心结论，会渲染成顶部蓝色重点块。
+
+## 速览（要点卡）
+
+正文第一块用要点卡网格（Markdown 里可内嵌 HTML，**前后留空行**）：
+
+```html
+<div class="ql-grid">
+  <div class="ql-card"><div class="ql-card-title">要点一</div><div class="ql-card-body">说明</div></div>
+</div>
+```
+
+## 自动大纲
+
+正文用 `##` / `###` 分节，页面会**自动生成右侧大纲**并随滚动高亮。
+</script>
+
+<script type="text/markdown" id="md-callouts">
+# 语义提示块
+
+按语义定色，用 GitHub 风格（每个独立成段、前后空行）：
+
+> [!NOTE]
+> 蓝色 · 说明性补充。
+
+> [!TIP]
+> 绿色 · 建议或技巧。
+
+> [!IMPORTANT]
+> 紫色 · 关键信息。
+
+> [!WARNING]
+> 黄色 · 需要注意的坑。
+
+> [!CAUTION]
+> 红色 · 高风险/警告。
+
+可用：`[!NOTE]` `[!TIP]` `[!IMPORTANT]` `[!WARNING]` `[!CAUTION]`。
+</script>
+
+<script type="text/markdown" id="md-tables">
+# 表格与徽章
+
+技术报告多用表格，表头/斑马纹自带。单元格里可放**徽章**和行内代码：
+
+| 事件 | 类型 | 说明 |
+|---|---|---|
+| trackExp | <span class="badge badge-green">EXP</span> | `instance_id`、`position` |
+| trackClick | <span class="badge badge-blue">CLK</span> | 点击上报 |
+| legacy | <span class="badge badge-gray">DEPRECATED</span> | 已废弃 |
+
+徽章颜色：`badge-green` / `badge-blue` / `badge-gray` / `badge-amber`。
+
+> [!NOTE]
+> 本教程页用的是运行时 marked 渲染；徽章样式由报告模板提供，单页报告里同样可用。
+</script>
+
+<script type="text/markdown" id="md-deploy">
+# 部署与多设备
+
+## gh-pages 分支根
+
+GitHub Pages 分支部署只伺服仓库根或 `/docs`。mdsite 让 `~/.mdsite` 工作区根 = gh-pages 分支根，push 即上线，零 CI。
+
+## 多设备安全合并
+
+多台机器并发发布时，索引 `pages.json` 在 rebase 冲突时做**语义合并**——两边新条目都保留、按时间去重排序，不丢任何报告。
+
+```bash
+# 第二台机器：init 会 clone 已有站点，publish 自动同步合并
+mdsite init --repo <你>/pages
+mdsite publish today.md --title ... --category ... --summary ...
+```
+</script>
+
+<script type="text/markdown" id="md-privacy">
+# 去中心与隐私
+
+**你的内容只属于你。**
+
+- 所有页面只部署到**你自己配置的 GitHub 仓库**，用**你自己的凭证**，由**你自己的 GitHub Pages** 服务。
+- 工具**不向任何维护者后端发请求**，维护者不托管、不缓存、不聚合任何内容。
+- 站点首页只列**你本人**的报告，**不存在**任何跨用户汇总入口或中心服务。
+
+> [!IMPORTANT]
+> 这条是产品的法律地基：mdsite 是「工具作者」立场（类似 Hugo / Jekyll），不是「平台方」。
+</script>
+
+<script type="text/markdown" id="md-faq">
+# FAQ
+
+### 命令叫 mdsite，包名却是 @tomczhang/mdsite？
+
+npm 上无前缀的 `mdsite` 与既有包重名占不到，所以包名加了 scope；安装后命令仍是 `mdsite`。
+
+### 能放图表 / 复杂交互吗？
+
+能。写成自包含 `.html`（像本页用了 marked + highlight.js + 前端路由），用 `mdsite publish x.html` 直通发布即可。
+
+### 报告能改样式吗？
+
+能。`mdsite template eject report` 把内置模板拷到 `~/.mdsite/templates/` 后随意改，用户层覆盖内置层。
+</script>
+
+<!-- ===== 路由 + 渲染 ===== -->
+<script>
+  const NAV = [
+    { group: '开始', items: [
+      { id: 'intro', title: 'mdsite 是什么' },
+      { id: 'install', title: '安装' },
+      { id: 'init', title: '初始化' },
+      { id: 'publish', title: '发布报告' },
+    ]},
+    { group: '写好报告', items: [
+      { id: 'authoring', title: '结构：摘要+速览' },
+      { id: 'callouts', title: '语义提示块' },
+      { id: 'tables', title: '表格与徽章' },
+    ]},
+    { group: '机制', items: [
+      { id: 'deploy', title: '部署与多设备' },
+      { id: 'privacy', title: '去中心与隐私' },
+      { id: 'faq', title: 'FAQ' },
+    ]},
+  ];
+  const ORDER = NAV.flatMap(g => g.items);
+
+  // 客户端语义提示块转换（与 mdsite 服务端 markdown.mjs 同款规则）
+  const ALERTS = { NOTE:['note','说明','ℹ️'], TIP:['tip','提示','💡'], IMPORTANT:['important','重点','🔆'], WARNING:['warning','注意','⚠️'], CAUTION:['caution','警告','⛔'] };
+  function transformAlerts(html) {
+    return String(html).replace(/<blockquote>([\s\S]*?)<\/blockquote>/g, (full, inner) => {
+      const m = inner.match(/^\s*<p>\s*\[!(\w+)\]\s*(?:<br\s*\/?>|\n)?/i);
+      if (!m || !ALERTS[m[1].toUpperCase()]) return full;
+      const [cls, label, icon] = ALERTS[m[1].toUpperCase()];
+      let body = inner.replace(/^\s*<p>\s*\[![^\]]+\]\s*(?:<br\s*\/?>|\n)?/i, '<p>').replace(/^\s*<p>\s*<\/p>\s*/i, '');
+      return `<div class="callout callout-${cls}"><div class="callout-title"><span>${icon}</span>${label}</div><div class="callout-body">${body}</div></div>`;
+    });
+  }
+
+  function app() {
+    return {
+      open: false,
+      init() {
+        this.buildNav();
+        // marked + highlight 集成
+        if (window.markedHighlight) {
+          marked.use(window.markedHighlight.markedHighlight({
+            highlight(code, lang) {
+              try { return hljs.getLanguage(lang) ? hljs.highlight(code, { language: lang }).value : hljs.highlightAuto(code).value; }
+              catch { return code; }
+            }
+          }));
+        }
+        window.addEventListener('hashchange', () => this.render());
+        this.render();
+      },
+      buildNav() {
+        const nav = document.getElementById('nav');
+        NAV.forEach(g => {
+          const h = document.createElement('div'); h.className = 'nav-group'; h.textContent = g.group; nav.appendChild(h);
+          g.items.forEach(it => {
+            const a = document.createElement('a'); a.className = 'nav-link'; a.dataset.id = it.id;
+            a.href = '#/' + it.id; a.textContent = it.title; nav.appendChild(a);
+          });
+        });
+      },
+      currentId() {
+        const id = (location.hash.replace(/^#\/?/, '') || ORDER[0].id);
+        return ORDER.some(o => o.id === id) ? id : ORDER[0].id;
+      },
+      render() {
+        const id = this.currentId();
+        const src = document.getElementById('md-' + id);
+        const html = src ? transformAlerts(marked.parse(src.textContent.trim())) : '<p>未找到该章节。</p>';
+        const content = document.getElementById('content');
+        content.innerHTML = html;
+        content.querySelectorAll('pre code').forEach(b => { try { hljs.highlightElement(b); } catch {} });
+        document.querySelectorAll('#nav .nav-link').forEach(a => a.classList.toggle('active', a.dataset.id === id));
+        // 上一页/下一页
+        const i = ORDER.findIndex(o => o.id === id);
+        const prev = document.getElementById('prev'), next = document.getElementById('next');
+        prev.textContent = i > 0 ? '← ' + ORDER[i - 1].title : '';
+        prev.onclick = i > 0 ? () => location.hash = '#/' + ORDER[i - 1].id : null;
+        next.textContent = i < ORDER.length - 1 ? ORDER[i + 1].title + ' →' : '';
+        next.onclick = i < ORDER.length - 1 ? () => location.hash = '#/' + ORDER[i + 1].id : null;
+        document.querySelector('main').scrollTo?.(0, 0);
+        window.scrollTo(0, 0);
+        this.open = false;
+      },
+    };
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" defer></script>
+<style>
+  .badge{display:inline-block;padding:.05rem .5rem;border-radius:999px;font-size:.72rem;font-weight:600}
+  .badge-green{background:#e8f9ee;color:#009a29}.badge-blue{background:#eaf2ff;color:#1677ff}
+  .badge-gray{background:#f2f3f5;color:#6b7280}.badge-amber{background:#fff3e0;color:#d97500}
+  .callout{margin:1.1rem 0;padding:.7rem 1rem;border-left:4px solid;border-radius:0 8px 8px 0}
+  .callout-title{font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem}
+  .callout-body>:first-child{margin-top:0}.callout-body>:last-child{margin-bottom:0}
+  .callout-note{background:#f2f7ff;border-color:#1677ff}.callout-note .callout-title{color:#1677ff}
+  .callout-tip{background:#f0faf4;border-color:#00b42a}.callout-tip .callout-title{color:#009a29}
+  .callout-important{background:#f6f2ff;border-color:#7b5cff}.callout-important .callout-title{color:#6a3ff0}
+  .callout-warning{background:#fff9ec;border-color:#ff9a2e}.callout-warning .callout-title{color:#d97500}
+  .callout-caution{background:#fff1f0;border-color:#f53f3f}.callout-caution .callout-title{color:#cb2634}
+</style>
+</body>
+</html>
