@@ -1,5 +1,12 @@
 [
   {
+    "filename": "doc/2026-06-20/0147-4540f3.html",
+    "title": "doc 模板（三栏版）示例",
+    "category": "doc",
+    "date": "2026-06-20",
+    "summary": "三栏满宽:左章节导航 + 中内容 + 右本页目录,对齐之前的 SPA 版式。"
+  },
+  {
     "filename": "dashboard/2026-06-20/0123-07a5c4.html",
     "title": "dashboard 模板示例：数据看板",
     "category": "dashboard",

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>doc 模板（三栏版）示例</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%228%22%20y1%3D%228%22%20x2%3D%2256%22%20y2%3D%2256%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20stop-color%3D%22%23020617%22%2F%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23111827%22%2F%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22signal%22%20x1%3D%2216%22%20y1%3D%2212%22%20x2%3D%2250%22%20y2%3D%2250%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20stop-color%3D%22%2322d3ee%22%2F%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2334d399%22%2F%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22url(%23bg)%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M14%2050V16a4%204%200%200%201%204-4h22l10%2010v28a4%204%200%200%201-4%204H18a4%204%200%200%201-4-4Z%22%20fill%3D%22%230b1220%22%20stroke%3D%22%2338bdf8%22%20stroke-width%3D%222%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M40%2012v11h10%22%20fill%3D%22%23172554%22%20stroke%3D%22%2338bdf8%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M22%2026h14M22%2033h10M22%2040h15%22%20stroke%3D%22url(%23signal)%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M17%2018h-5m0%200v8m35%2024h6m0%200v-8%22%20stroke%3D%22%231e40af%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2212%22%20cy%3D%2218%22%20r%3D%222.5%22%20fill%3D%22%2322d3ee%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2253%22%20cy%3D%2250%22%20r%3D%222.5%22%20fill%3D%22%2334d399%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M43%2043c4.5%200%207.5-2.4%207.5-6.1%200-3.2-2.3-5.4-5.4-5.8A8%208%200%200%200%2030.4%2034%206.2%206.2%200%200%200%2032%2047h11z%22%20fill%3D%22url(%23signal)%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M39.5%2048V35m0%200-5%205m5-5%205%205%22%20stroke%3D%22%23020617%22%20stroke-width%3D%223.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3C%2Fsvg%3E">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" defer></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; color:#1f2329; }
+    html { scroll-behavior: smooth; }
+    [x-cloak]{display:none}
+    ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#dfe3e8;border-radius:4px}
+    /* 左侧 section 导航 */
+    .nav-link{position:relative;display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#4e5969;cursor:pointer;transition:.12s}
+    .nav-link:hover{background:#f4f5f7;color:#1f2329}
+    .nav-link.active{background:#eef4ff;color:#1677ff;font-weight:600}
+    .nav-link.active::before{content:"";position:absolute;left:-9px;top:50%;transform:translateY(-50%);width:3px;height:16px;border-radius:2px;background:#1677ff}
+    /* 右侧本页目录 */
+    .toc-link{display:block;padding:3px 0 3px 12px;font-size:13px;line-height:1.5;color:#86909c;border-left:2px solid #eef0f2;cursor:pointer;transition:.12s}
+    .toc-link:hover{color:#1f2329}
+    .toc-link.active{color:#1677ff;border-left-color:#1677ff;font-weight:500}
+    .toc-link.lvl-3{padding-left:24px;font-size:12px}
+    /* 正文 */
+    .prose-mdsite{font-size:16px;line-height:1.85}
+    .prose-mdsite>:first-child{margin-top:0}
+    .prose-mdsite h2{font-size:1.45rem;font-weight:600;margin:2.2rem 0 .9rem;padding-bottom:.4rem;border-bottom:1px solid #f0f0f0;scroll-margin-top:5rem}
+    .prose-mdsite h3{font-size:1.18rem;font-weight:600;margin:1.6rem 0 .6rem;scroll-margin-top:5rem}
+    .prose-mdsite h4{font-size:1rem;font-weight:600;margin:1.2rem 0 .5rem;color:#424750}
+    .prose-mdsite p{margin:.9rem 0}
+    .prose-mdsite ul,.prose-mdsite ol{margin:.9rem 0;padding-left:1.6rem}
+    .prose-mdsite li{margin:.4rem 0}.prose-mdsite ul{list-style:disc}.prose-mdsite ol{list-style:decimal}
+    .prose-mdsite li::marker{color:#86909c}
+    .prose-mdsite a{color:#1677ff;border-bottom:1px solid rgba(22,119,255,.3)}
+    .prose-mdsite strong{font-weight:600}
+    .prose-mdsite code{background:#f2f3f5;color:#d4380d;padding:.12rem .4rem;border-radius:4px;font-size:.88em;font-family:ui-monospace,Menlo,monospace}
+    .prose-mdsite kbd{display:inline-block;background:#fafbfc;border:1px solid #d0d7de;border-bottom-width:2px;border-radius:5px;padding:.05rem .4rem;font-size:.82em;font-family:ui-monospace,Menlo,monospace}
+    .prose-mdsite pre{background:#0d1117;border-radius:10px;padding:1.1rem 1.3rem;overflow-x:auto;margin:1.2rem 0}
+    .prose-mdsite pre code{background:transparent;color:#e6edf3;padding:0;font-size:.9rem;line-height:1.7}
+    .prose-mdsite blockquote{border-left:3px solid #1677ff;background:#f7f9ff;padding:.6rem 1rem;color:#4e5969;margin:1.1rem 0;border-radius:0 6px 6px 0}
+    .prose-mdsite table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.92rem}
+    .prose-mdsite th,.prose-mdsite td{border:1px solid #e5e6eb;padding:.55rem .85rem;text-align:left}
+    .prose-mdsite th{background:#f7f8fa;font-weight:600}.prose-mdsite tr:nth-child(even) td{background:#fafbfc}
+    .prose-mdsite hr{border:none;border-top:1px solid #f0f0f0;margin:2rem 0}
+    .badge{display:inline-block;padding:.05rem .5rem;border-radius:999px;font-size:.72rem;font-weight:600}
+    .badge-green{background:#e8f9ee;color:#009a29}.badge-blue{background:#eaf2ff;color:#1677ff}.badge-gray{background:#f2f3f5;color:#6b7280}.badge-amber{background:#fff3e0;color:#d97500}
+    .callout{margin:1.1rem 0;padding:.7rem 1rem;border-left:4px solid;border-radius:0 8px 8px 0}
+    .callout-title{font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem}
+    .callout-body>:first-child{margin-top:0}.callout-body>:last-child{margin-bottom:0}
+    .callout-note{background:#f2f7ff;border-color:#1677ff}.callout-note .callout-title{color:#1677ff}
+    .callout-tip{background:#f0faf4;border-color:#00b42a}.callout-tip .callout-title{color:#009a29}
+    .callout-important{background:#f6f2ff;border-color:#7b5cff}.callout-important .callout-title{color:#6a3ff0}
+    .callout-warning{background:#fff9ec;border-color:#ff9a2e}.callout-warning .callout-title{color:#d97500}
+    .callout-caution{background:#fff1f0;border-color:#f53f3f}.callout-caution .callout-title{color:#cb2634}
+  </style>
+</head>
+<body class="bg-white" x-data="{ open:false }">
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-100 h-14 flex items-center gap-3 px-4">
+    <button class="lg:hidden p-2 -ml-2 text-gray-500" @click="open=!open" aria-label="菜单">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <a href="../../index.html" class="text-sm text-gray-400 hover:text-blue-600 shrink-0">&larr; 全部</a>
+    <span class="font-semibold text-gray-900 truncate">doc 模板（三栏版）示例</span>
+    <span class="ml-auto text-xs text-gray-400 shrink-0 hidden sm:inline">2026-06-20</span>
+  </header>
+
+  <div class="flex">
+    <!-- 左：section 导航 -->
+    <aside class="fixed lg:sticky top-14 z-20 h-[calc(100vh-3.5rem)] w-60 shrink-0 overflow-y-auto bg-[#fbfcfd] border-r border-gray-100 px-3 py-5 transition-transform"
+           :class="open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
+      <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400 px-3 mb-2" id="nav-title" style="display:none">章节</p>
+      <nav id="nav"></nav>
+    </aside>
+    <div class="fixed inset-0 top-14 bg-black/30 z-10 lg:hidden" x-show="open" x-cloak @click="open=false"></div>
+
+    <!-- 中：内容 -->
+    <main class="flex-1 min-w-0 px-6 lg:px-12 py-9">
+      <header class="mb-7 pb-5 border-b border-gray-100 max-w-3xl">
+        <p class="text-xs uppercase tracking-widest text-blue-600 font-semibold mb-2">doc</p>
+        <h1 class="text-3xl font-bold text-gray-900 leading-tight">doc 模板（三栏版）示例</h1>
+        <div class="mt-4 bg-blue-50/70 border-l-4 border-blue-500 px-4 py-3 rounded-r-lg">
+          <p class="text-[15px] text-gray-600 leading-relaxed">三栏满宽:左章节导航 + 中内容 + 右本页目录,对齐之前的 SPA 版式。</p>
+        </div>
+      </header>
+      <article id="article" class="prose-mdsite max-w-3xl">
+        <h2>背景</h2>
+<p>doc 模板现在是三栏满宽:左侧章节导航、中间内容、右侧本页目录。</p>
+<h2>安装</h2>
+<pre><code class="language-bash">npm i -g @tomczhang/mdsite
+</code></pre>
+<h3>前置条件</h3>
+<p>node ≥ 20。</p>
+<h2>用法</h2>
+<p><code>mdsite publish guide.md --template doc ...</code></p>
+<h3>选项</h3>
+<p><code>--template</code>、<code>--summary</code> 等。</p>
+<h2>排版能力</h2>
+<p>支持语义 callout、表格、代码、kbd。</p>
+<div class="callout callout-tip"><div class="callout-title"><span class="callout-icon">💡</span>提示</div><div class="callout-body"><p>长文档用 doc,看板用 dashboard,单页结论用 report。</p>
+</div></div>
+<h2>小结</h2>
+<p>左导航跳章节、右目录看位置,空间用满。</p>
+
+      </article>
+      <footer class="border-t border-gray-100 pt-6 mt-12 text-sm text-gray-400 max-w-3xl">
+        由 <span class="font-medium text-gray-500">Pages</span> 生成 · 2026-06-20
+      </footer>
+    </main>
+
+    <!-- 右：本页目录（宽屏，填满右侧空间） -->
+    <aside class="hidden xl:block w-56 shrink-0 px-4 py-9">
+      <div class="sticky top-20">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 pl-3" id="toc-title" style="display:none">本页目录</p>
+        <nav id="toc"></nav>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    (function () {
+      const article = document.getElementById('article');
+      const nav = document.getElementById('nav'), toc = document.getElementById('toc');
+      const heads = article.querySelectorAll('h2, h3');
+      if (!heads.length) return;
+      const slug = (t, i) => (t.toLowerCase().replace(/[^\w一-龥]+/g, '-').replace(/^-+|-+$/g, '') || 'sec') + '-' + i;
+      heads.forEach((h, i) => { if (!h.id) h.id = slug(h.textContent, i); });
+      // 左侧：只放 h2（章节级），作主导航
+      const h2s = [...heads].filter(h => h.tagName === 'H2');
+      if (h2s.length) {
+        document.getElementById('nav-title').style.display = '';
+        h2s.forEach(h => {
+          const a = document.createElement('a'); a.href = '#' + h.id; a.textContent = h.textContent;
+          a.className = 'nav-link'; a.dataset.id = h.id; nav.appendChild(a);
+        });
+      }
+      // 右侧：本页目录（h2+h3 全量，滚动高亮）
+      document.getElementById('toc-title').style.display = '';
+      heads.forEach(h => {
+        const a = document.createElement('a'); a.href = '#' + h.id; a.textContent = h.textContent;
+        a.className = 'toc-link' + (h.tagName === 'H3' ? ' lvl-3' : ''); a.dataset.id = h.id; toc.appendChild(a);
+      });
+      const navLinks = nav.querySelectorAll('.nav-link'), tocLinks = toc.querySelectorAll('.toc-link');
+      const obs = new IntersectionObserver((es) => es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const id = e.target.id;
+        tocLinks.forEach(l => l.classList.toggle('active', l.dataset.id === id));
+        // 左侧高亮：当前标题，或其所属最近的 h2
+        let h2id = id;
+        const el = document.getElementById(id);
+        if (el && el.tagName === 'H3') { let p = el; while (p && p.tagName !== 'H2') p = p.previousElementSibling; if (p) h2id = p.id; }
+        navLinks.forEach(l => l.classList.toggle('active', l.dataset.id === h2id));
+      }), { rootMargin: '-10% 0px -75% 0px' });
+      heads.forEach(h => obs.observe(h));
+    })();
+  </script>
+</body>
+</html>
