@@ -1,5 +1,12 @@
 [
   {
+    "filename": "report/2026-06-19/1810-542390.html",
+    "title": "mdsite 改名 Live 验证",
+    "category": "report",
+    "date": "2026-06-19",
+    "summary": "改名为 mdsite 后的端到端验证"
+  },
+  {
     "filename": "report/2026-06-19/1554-0a2ad8.html",
     "title": "mdlink Live 验证报告",
     "category": "report",
