@@ -1,5 +1,12 @@
 [
   {
+    "filename": "guide/2026-06-20/0105-272798.html",
+    "title": "mdsite 使用教程（前端路由 SPA · 三栏 docs 版式）",
+    "category": "guide",
+    "date": "2026-06-20",
+    "summary": "重做版式:左导航+宽内容+右本页目录三栏满宽,精致 sidebar;整页直通发布,与报告模板分离。"
+  },
+  {
     "filename": "guide/2026-06-20/0040-629a90.html",
     "title": "mdsite 使用教程（前端路由 SPA）",
     "category": "guide",
