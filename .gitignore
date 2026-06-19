@@ -2,3 +2,4 @@ mdlink.yml
 templates/
 .cache/
 .DS_Store
+mdsite.yml
