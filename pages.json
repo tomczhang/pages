@@ -1,5 +1,12 @@
 [
   {
+    "filename": "guide/2026-06-20/0030-638ec2.html",
+    "title": "mdsite 使用教程（前端路由 SPA）",
+    "category": "guide",
+    "date": "2026-06-20",
+    "summary": "单文件自包含 SPA:sidebar 树导航 + hash 前端路由 + 代码高亮 + 语义 callout,clean-room 实现,演示 mdsite 能承载复杂前端页面。"
+  },
+  {
     "filename": "showcase/2026-06-20/0006-06020e.html",
     "title": "mdsite 报告模板 v3:收口(移动目录/kbd/精简工具)",
     "category": "showcase",
