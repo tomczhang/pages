@@ -1,5 +1,12 @@
 [
   {
+    "filename": "landing/2026-06-20/1111-6a2586.html",
+    "title": "mdsite — landing (v2)",
+    "category": "landing",
+    "date": "2026-06-20",
+    "summary": "落地站 v2:特性卡/第3步改成 outcome-first 非技术语言,消除 GitHub 漂移,与 skill-first 定位自洽。"
+  },
+  {
     "filename": "landing/2026-06-20/1106-bb2de6.html",
     "title": "mdsite — landing",
     "category": "landing",
