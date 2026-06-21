@@ -1,5 +1,12 @@
 [
   {
+    "filename": "guide/2026-06-21/2205-4d20f9.html",
+    "title": "mdsite 使用指南",
+    "category": "guide",
+    "date": "2026-06-21",
+    "summary": "安装、认证、发布流程与文档模板形态的一站式说明"
+  },
+  {
     "filename": "landing/2026-06-20/1111-6a2586.html",
     "title": "mdsite — landing (v2)",
     "category": "landing",
